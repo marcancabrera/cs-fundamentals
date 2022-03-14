@@ -6,7 +6,12 @@ namespace AutomationAPI.API
 {
     internal class HttpRequestManager
     {
-        private string url = "http://localhost:9093";
+        private string url;
+
+        public HttpRequestManager(string url)
+        {
+            this.url = url;
+        }
 
         public async Task<HttpResponseMessage> MakeRequest(string verb, string endpoint, HttpContent? data = null)
         {
