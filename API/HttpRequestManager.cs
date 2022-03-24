@@ -6,16 +6,17 @@ namespace AutomationAPI.API
 {
     internal class HttpRequestManager
     {
-        private string url;
+        private static string url;
+        private static HttpClient client = new HttpClient();
 
-        public HttpRequestManager(string url)
+        public static async Task<HttpResponseMessage> Request(HttpRequestMessage httpRequestMessage)
         {
-            this.url = url;
+            var request = await client.SendAsync(httpRequestMessage);
+            return request;
         }
 
-        public async Task<HttpResponseMessage> MakeRequest(string verb, string endpoint, HttpContent? data = null)
+        public static async Task<HttpResponseMessage> MakeRequest(string verb, string endpoint, HttpContent? data = null)
         {
-            HttpClient client = new HttpClient();
             url = $"{url}/{endpoint}";
             HttpResponseMessage response;
             switch (verb)

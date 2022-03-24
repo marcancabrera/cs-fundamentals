@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Linq;
+using System;
 
 namespace AutomationAPI
 {
@@ -16,8 +17,8 @@ namespace AutomationAPI
         [TestMethod]
         public async Task GetTenEpisodes()
         {
-            HttpRequestManager mockRequestManager = new HttpRequestManager("https://rickandmortyapi.com/api");
-            HttpResponseMessage response = await mockRequestManager.MakeRequest("GET", "episode");
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, new Uri("https://rickandmortyapi.com/api/episode"));
+            HttpResponseMessage response = await HttpRequestManager.Request(request);
             var content = await response.Content.ReadAsStringAsync();
             Episodes episodes = JsonSerializer.Deserialize<Episodes>(content);
             IEnumerable<Episode> result = episodes.results
@@ -29,8 +30,8 @@ namespace AutomationAPI
         [TestMethod]
         public async Task GroupByName()
         {
-            HttpRequestManager mockRequestManager = new HttpRequestManager("https://rickandmortyapi.com/api");
-            HttpResponseMessage response = await mockRequestManager.MakeRequest("GET", "episode");
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, new Uri("https://rickandmortyapi.com/api/episode"));
+            HttpResponseMessage response = await HttpRequestManager.Request(request);
             var content = await response.Content.ReadAsStringAsync();
             Episodes episodes = JsonSerializer.Deserialize<Episodes>(content);
             var result = episodes.results.Where(e => e.name.StartsWith("A")).GroupBy(e => e.name);
@@ -39,8 +40,8 @@ namespace AutomationAPI
         [TestMethod]
         public async Task SingleOrDefault()
         {
-            HttpRequestManager mockRequestManager = new HttpRequestManager("https://rickandmortyapi.com/api");
-            HttpResponseMessage response = await mockRequestManager.MakeRequest("GET", "episode");
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, new Uri("https://rickandmortyapi.com/api/episode"));
+            HttpResponseMessage response = await HttpRequestManager.Request(request);
             var content = await response.Content.ReadAsStringAsync();
             Episodes episodes = JsonSerializer.Deserialize<Episodes>(content);
             var result = episodes.results.SingleOrDefault(e => e.name == "A Rickle in Time");
