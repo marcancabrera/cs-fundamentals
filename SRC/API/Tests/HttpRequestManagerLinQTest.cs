@@ -11,7 +11,7 @@ using System;
 namespace AutomationAPI
 {
     [TestClass]
-    public class Examples
+    public class HttpRequestManagerLinQTest
     {
         #region Smoke Test
         [TestMethod]
